@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user -->
+<!-- -->
+<!-- For professional support please see -->
+<!-- http://www.qos.ch/shop/products/professionalSupport -->
+<!-- -->
+<configuration>
+	<appender name="cocaine" class="ch.qos.logback.core.FileAppender">
+		<File>cocaine.log</File>
+		<Append>false</Append>
+		<encoder>
+			<pattern>%date - [%mdc{tenant}] - [%thread] %-5level %logger - %message%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+	</appender>
+
+	<appender name="cocaineError" class="ch.qos.logback.core.FileAppender">
+		<File>cocaine.error.log</File>
+		<Append>false</Append>
+		<encoder>
+			<pattern>%date - [%mdc{tenant}] - [%thread] %-5level %logger - %message%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+	</appender>
+
+
+	<appender name="Spring" class="ch.qos.logback.core.FileAppender">
+		<Append>false</Append>
+		<File>spring.log</File>
+		<encoder>
+			<pattern>%date - [%mdc{tenant}] - [%thread] %-5level %logger - %message%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+	</appender>
+
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d [%t] %-5p %c - %m%n</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+	</appender>
+
+	<root level="DEBUG">
+		<appender-ref ref="cocaineError" />
+	</root>
+	<logger name="com.ioz.cocaine" level="DEBUG">
+		<appender-ref ref="Console" />
+		<appender-ref ref="cocaine" />
+	</logger>
+	<logger name="org.springframework" additivity="false" level="WARN">
+		<appender-ref ref="Spring" />
+		<appender-ref ref="cocaineError" />
+	</logger>
+
+</configuration>
